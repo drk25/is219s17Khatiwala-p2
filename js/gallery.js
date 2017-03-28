@@ -51,14 +51,12 @@ function swapPhoto() {
 		mCurrentIndex = mImages/length - 1;
 	}
 	console.log(mCurrentIndex);
+	
 	$('#slideShow.photoHolder img').attr('src', mImages[mCurrentIndex].img);
 	$('#slideShow.details.location').text("Location: ", mImages[mCurrentIndex].location);
 	$('#slideShow.photoHolder.description').text("Description: ", mImages[mCurrentIndex].description);
 	$('#slideShow.photoHolder.date').text("Date: ", mImages[mCurrentIndex].imgdate);
-	//Add code here to access the #slideShow element.
-	//Access the img element and replace its source
-	//with a new image from your images array which is loaded 
-	//from the JSON string
+
 	console.log('swap photo');
 	mCurrentIndex++;
 }
@@ -93,8 +91,19 @@ $(document).ready( function() {
 	
 	// This initially hides the photos' metadata information
 	$('.details').eq(0).hide();
+	$("img.moreIndicator").click(function(){
+		if($(this).hasClass("rot90")) {
+			$(this).removeClass("rot90").addClass("rot270");
+			$("div.details").fadeToggle("slow","linear");
+		}
+		else{
+			$(this).removeClass("rot270").addClass("rot90");
+			$("tdiv.details").fadeToggle("slow","linear");
+		}
+	});
 	
-});
+	$(".moreIndicator.rot90").css({"position:" "relative","left": "50%","top": "-60px"});
+	$("#nextPhoto").css({"position": "absolute","right": "0"});
 
 window.addEventListener('load', function() {
 	
