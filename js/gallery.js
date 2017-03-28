@@ -31,13 +31,36 @@ function animate() {
 }
 
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
+function getQueryParams(qs) {
+	qs = qs.split("+").join(" ");
+	var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+	while (tokens = re.exec(qs)) {
+		params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+	}
+	return params;
+}
+
+var $_GET = getQueryParams(document.location.search);
+console.log($_GET["json"]); 
+
 
 function swapPhoto() {
+	if(mCurrentIndex > mImages.length - 1){
+		mCurrentIndex = 0;
+	}else if(mCurrentIndex < 0){
+		mCurrentIndex = mImages/length - 1;
+	}
+	console.log(mCurrentIndex);
+	$('#slideShow.photoHolder img').attr('src', mImages[mCurrentIndex].img);
+	$('#slideShow.details.location').text("Location: ", mImages[mCurrentIndex].location);
+	$('#slideShow.photoHolder.description').text("Description: ", mImages[mCurrentIndex].description);
+	$('#slideShow.photoHolder.date').text("Date: ", mImages[mCurrentIndex].imgdate);
 	//Add code here to access the #slideShow element.
 	//Access the img element and replace its source
 	//with a new image from your images array which is loaded 
 	//from the JSON string
 	console.log('swap photo');
+	mCurrentIndex++;
 }
 
 // Counter for the mImages array
@@ -54,7 +77,7 @@ var mJson;
 
 // URL for the JSON to load by default
 // Some options for you are: images.json, images.short.json; you will need to create your own extra.json later
-var mUrl = 'insert_url_here_to_image_json';
+var mUrl = $_GET["json"];
 
 
 //You can optionally use the following function as your event callback for loading the source of Images from your json data (for HTMLImageObject).
@@ -79,10 +102,32 @@ window.addEventListener('load', function() {
 
 }, false);
 
-function GalleryImage() {
+function GalleryImage(location, description, imgdate, img) {
 	//implement me as an object to hold the following data about an image:
 	//1. location where photo was taken
 	//2. description of photo
 	//3. the date when the photo was taken
 	//4. either a String (src URL) or an an HTMLImageObject (bitmap of the photo. https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement)
+	this.location = location;
+	this.description = description;
+	this.imgdate = imgdate;
+	this.img = img;	
 }
+function reqListener () {
+	try{
+		var myJson = JSON.parse(this.responseText);
+		for(var i = 0; i < myJson.images.length; i++) {
+			var tempInfo = myJson.images[i];
+			var galleryImage = new GalleryImage(tempInfo.location,tempInfo.description,tempInfo.date,tempInfo.img);
+			mImages.push(galleryImage);
+		}
+	}catch(error){
+		mRequest.addEventListener("load", reqListener);
+		mRequest.open("GET","images.json");
+		mRequest.send();
+	}
+}
+
+mRequest.addEventListener("load", reqListener);
+mRequest.open("GET", mUrl);
+mRequest.send();
