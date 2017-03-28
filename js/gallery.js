@@ -104,6 +104,14 @@ $(document).ready( function() {
 	
 	$(".moreIndicator.rot90").css({"position:" "relative","left": "50%","top": "-60px"});
 	$("#nextPhoto").css({"position": "absolute","right": "0"});
+	$("#nextPhoto").click(function() {
+		swapPhoto();
+	});
+	$("#prevPhoto").click(function() {
+		mCurrentIndex = mCurrentIndex - 2;
+		swapPhoto();
+	});
+});
 
 window.addEventListener('load', function() {
 	
