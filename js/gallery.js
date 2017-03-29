@@ -102,7 +102,7 @@ $(document).ready( function() {
 		}
 	});
 	
-	$(".moreIndicator.rot90").css({"position:" "relative","left": "50%","top": "-60px"});
+	$(".moreIndicator.rot90").css({"position": "relative","left": "50%","top": "-60px"});
 	$("#nextPhoto").css({"position": "absolute","right": "0"});
 	$("#nextPhoto").click(function() {
 		swapPhoto();
@@ -119,23 +119,19 @@ window.addEventListener('load', function() {
 
 }, false);
 
-function GalleryImage(location, description, imgdate, img) {
-	//implement me as an object to hold the following data about an image:
-	//1. location where photo was taken
-	//2. description of photo
-	//3. the date when the photo was taken
-	//4. either a String (src URL) or an an HTMLImageObject (bitmap of the photo. https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement)
+function GalleryImage(location, description, imgdate, imgpath) {
+	
 	this.location = location;
 	this.description = description;
 	this.imgdate = imgdate;
-	this.img = img;	
+	this.imgpath = imgpath;	
 }
 function reqListener () {
 	try{
 		var myJson = JSON.parse(this.responseText);
 		for(var i = 0; i < myJson.images.length; i++) {
 			var tempInfo = myJson.images[i];
-			var galleryImage = new GalleryImage(tempInfo.location,tempInfo.description,tempInfo.date,tempInfo.img);
+			var galleryImage = new GalleryImage(tempInfo.location,tempInfo.description,tempInfo.date,tempInfo.imgpath);
 			mImages.push(galleryImage);
 		}
 	}catch(error){
