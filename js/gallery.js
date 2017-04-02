@@ -38,10 +38,10 @@ function swapPhoto() {
 		mCurrentIndex += mImages.length;
 	}
 	
-	$("#photo").attr('src', mImages[mCurrentIndex].imgPath);
+	$("#photo").attr('src', mImages[mCurrentIndex].imgpath);
 	$(".location").text("Location: "+mImages[mCurrentIndex].imgLocation);
 	$(".description").text("Description: "+mImages[mCurrentIndex].description);
-	$(".date").text("Date: "+mImages[mCurrentIndex].date);
+	$(".date").text("Date: "+mImages[mCurrentIndex].imgdate);
 	
 	mCurrentIndex++;
 	if(mCurrentIndex >=  mImages.length){
@@ -83,14 +83,14 @@ var mUrl;
 mRequest.onreadystatechange = function() { 
 	
 	if (mRequest.readyState == 4 && mRequest.status == 200) {
-		try { 
-			mJson = JSON.parse(mRequest.responseText);
-			console.log(mJson);
+	try { 
+		mJson = JSON.parse(mRequest.responseText);
+		console.log(mJson);
 			
-			for(var i=0; i < mJson.images.length;i++)
-			{
-				mImages.push(new GalleryImage(mJson.images[i].imgLocation,mJson.images[i].description,mJson.images[i].date,mJson.images[i].imgPath));
-			}
+	for(var i=0; i < mJson.images.length;i++)
+		{
+			mImages.push(new GalleryImage(mJson.images[i].imgLocation,mJson.images[i].description,mJson.images[i].imgdate,mJson.images[i].imgpath));
+		}
 			
 		} catch(err) { 
 			console.log(err.message);
@@ -98,7 +98,7 @@ mRequest.onreadystatechange = function() {
 	} 
 }; 
 
-mRequest.open("GET", mUrl,true);
+mRequest.open("GET", mUrl, true);
 mRequest.send();
 
 function makeGalleryImageOnloadCallback(galleryImage) {
@@ -111,6 +111,7 @@ function makeGalleryImageOnloadCallback(galleryImage) {
 $(document).ready( function() {
 	
 	$('.details').eq(0).hide();
+	
 	$(".moreIndicator").click(function(){
 		$("img.rot90").toggleClass("rot270",3000);
 		$(".details").slideToogle(1000);
@@ -118,6 +119,7 @@ $(document).ready( function() {
 		$("#nextPhoto").click(function(){
 			swapPhoto();
 		});
+		
 		$("#prevPhoto").click(function(){	
 			mCurrentIndex -= 2;
 			swapPhoto();
@@ -133,28 +135,10 @@ window.addEventListener('load', function() {
 
 }, false);
 
-function GalleryImage(location, description, imgdate, imgpath) {
+function GalleryImage(imgLocation, description, imgdate, imgpath) {
 	
-	this.location = location;
+	this.imgLocation = imgLocation;
 	this.description = description;
 	this.imgdate = imgdate;
 	this.imgpath = imgpath;	
 }
-function reqListener () {
-	try{
-		var myJson = JSON.parse(this.responseText);
-		for(var i = 0; i < myJson.images.length; i++) {
-			var tempInfo = myJson.images[i];
-			var galleryImage = new GalleryImage(tempInfo.location,tempInfo.description,tempInfo.date,tempInfo.imgpath);
-			mImages.push(galleryImage);
-		}
-	}catch(error){
-		mRequest.addEventListener("load", reqListener);
-		mRequest.open("GET","images.json");
-		mRequest.send();
-	}
-}
-
-mRequest.addEventListener("load", reqListener);
-mRequest.open("GET", mUrl);
-mRequest.send();
