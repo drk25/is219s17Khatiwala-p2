@@ -98,7 +98,7 @@ $(document).ready( function() {
 		}
 		else{
 			$(this).removeClass("rot270").addClass("rot90");
-			$("tdiv.details").fadeToggle("slow","linear");
+			$("div.details").fadeToggle("slow","linear");
 		}
 	});
 	
@@ -114,7 +114,7 @@ $(document).ready( function() {
 });
 
 window.addEventListener('load', function() {
-	
+	           
 	console.log('window loaded');
 
 }, false);
