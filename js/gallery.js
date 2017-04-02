@@ -31,6 +31,25 @@ function animate() {
 }
 
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
+var mCurrentIndex = 0;
+
+function swapPhoto() {
+	 if(mCurrentIndex < 0){
+		mCurrentIndex += mImages.length;
+	}
+	
+	$("#photo").attr('src', mImages[mCurrentIndex].imgPath);
+	$(".location").text("Location: "+mImages[mCurrentIndex].imgLocation);
+	$(".description").text("Description: "+mImages[mCurrentIndex].description);
+	$(".date").text("Date: "+mImages[mCurrentIndex].date);
+	
+	mCurrentIndex++;
+	if(mCurrentIndex >=  mImages.length){
+		mCurrentIndex = 0;
+	}
+	console.log('swap photo');
+	
+}
 function getQueryParams(qs) {
 	qs = qs.split("+").join(" ");
 	var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
@@ -41,28 +60,6 @@ function getQueryParams(qs) {
 }
 
 var $_GET = getQueryParams(document.location.search);
-console.log($_GET["json"]); 
-
-
-function swapPhoto() {
-	if(mCurrentIndex > mImages.length - 1){
-		mCurrentIndex = 0;
-	}else if(mCurrentIndex < 0){
-		mCurrentIndex = mImages/length - 1;
-	}
-	console.log(mCurrentIndex);
-	
-	$('#slideShow.photoHolder img').attr('src', mImages[mCurrentIndex].img);
-	$('#slideShow.details.location').text("Location: ", mImages[mCurrentIndex].location);
-	$('#slideShow.photoHolder.description').text("Description: ", mImages[mCurrentIndex].description);
-	$('#slideShow.photoHolder.date').text("Date: ", mImages[mCurrentIndex].imgdate);
-
-	console.log('swap photo');
-	mCurrentIndex++;
-}
-
-// Counter for the mImages array
-var mCurrentIndex = 0;
 
 // XMLHttpRequest variable
 var mRequest = new XMLHttpRequest();
@@ -75,11 +72,35 @@ var mJson;
 
 // URL for the JSON to load by default
 // Some options for you are: images.json, images.short.json; you will need to create your own extra.json later
-var mUrl = $_GET["json"];
+var mUrl;
+ if($_GET["json"] == undefined){
+	mUrl = "images.json";
+   }else {
+	mUrl = $_GET["json"];
+}	
 
 
-//You can optionally use the following function as your event callback for loading the source of Images from your json data (for HTMLImageObject).
-//@param A GalleryImage object. Use this method for an event handler for loading a gallery Image object (optional).
+mRequest.onreadystatechange = function() { 
+	
+	if (mRequest.readyState == 4 && mRequest.status == 200) {
+		try { 
+			mJson = JSON.parse(mRequest.responseText);
+			console.log(mJson);
+			
+			for(var i=0; i < mJson.images.length;i++)
+			{
+				mImages.push(new GalleryImage(mJson.images[i].imgLocation,mJson.images[i].description,mJson.images[i].date,mJson.images[i].imgPath));
+			}
+			
+		} catch(err) { 
+			console.log(err.message);
+		} 
+	} 
+}; 
+
+mRequest.open("GET", mUrl,true);
+mRequest.send();
+
 function makeGalleryImageOnloadCallback(galleryImage) {
 	return function(e) {
 		galleryImage.img = e.target;
@@ -89,28 +110,21 @@ function makeGalleryImageOnloadCallback(galleryImage) {
 
 $(document).ready( function() {
 	
-	// This initially hides the photos' metadata information
 	$('.details').eq(0).hide();
-	$("img.moreIndicator").click(function(){
-		if($(this).hasClass("rot90")) {
-			$(this).removeClass("rot90").addClass("rot270");
-			$("div.details").fadeToggle("slow","linear");
-		}
-		else{
-			$(this).removeClass("rot270").addClass("rot90");
-			$("div.details").fadeToggle("slow","linear");
-		}
+	$(".moreIndicator").click(function(){
+		$("img.rot90").toggleClass("rot270",3000);
+		$(".details").slideToogle(1000);
 	});
-	
-	$(".moreIndicator.rot90").css({"position": "relative","left": "50%","top": "-60px"});
-	$("#nextPhoto").css({"position": "absolute","right": "0"});
-	$("#nextPhoto").click(function() {
-		swapPhoto();
-	});
-	$("#prevPhoto").click(function() {
-		mCurrentIndex = mCurrentIndex - 2;
-		swapPhoto();
-	});
+		$("#nextPhoto").click(function(){
+			swapPhoto();
+		});
+		$("#prevPhoto").click(function(){	
+			mCurrentIndex -= 2;
+			swapPhoto();
+			console.log(mCurrentIndex);
+});
+
+
 });
 
 window.addEventListener('load', function() {

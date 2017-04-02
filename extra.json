@@ -34,6 +34,12 @@
 			"imgPath": "img/places2/yosemite_national_park.jpg",
 			"imgLocation": "USA",
 			"description": "Yosemite National Park",
-			"date": "01/05/2016"
+			"date": "01/06/2016"
+		},
+		{
+			"imgPath": "img/places2/las_vegas_strip.jpg",
+			"imgLocation": "USA",
+			"description": "Las Vegas Strip",
+			"date": "01/07/2016"
 		}
 }
