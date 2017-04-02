@@ -1,0 +1,39 @@
+{
+	"images": [
+		{
+			"imgPath": "img/places2/white_house.jpg",
+			"imgLocation": "USA",
+			"description": "White House",
+			"date": "01/01/2016"
+		},
+		{
+			"imgPath": "img/places2/golden_gate_bridge.jpg",
+			"imgLocation": "USA",
+			"description": "Golden Gate Bridge",
+			"date": "01/02/2016"
+		},
+		{
+			"imgPath": "img/places2/grand_canyon.jpg",
+			"imgLocation": "USA",
+			"description": "Grand Canyon",
+			"date": "01/03/2016"
+		},
+		{
+			"imgPath": "img/places2/mount_rushmore.jpg",
+			"imgLocation": "USA",
+			"description": "Mount Rushmore",
+			"date": "01/04/2016"
+		},
+		{
+			"imgPath": "img/places2/niagara_falls.jpg",
+			"imgLocation": "USA",
+			"description": "Niagara Falls",
+			"date": "01/05/2016"
+		},
+		{
+			"imgPath": "img/places2/yosemite_national_park.jpg",
+			"imgLocation": "USA",
+			"description": "Yosemite National Park",
+			"date": "01/05/2016"
+		}
+}
