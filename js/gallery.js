@@ -79,7 +79,8 @@ var mJson;
 var mUrl;
 
  if($_GET["json"] == undefined){
-	mUrl = "extra.json";
+//	mUrl = "extra.json";
+	mUrl = "images.json";
 //	console.log(mUrl);
    }
  else {
