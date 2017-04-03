@@ -38,10 +38,15 @@ function swapPhoto() {
 		mCurrentIndex += mImages.length;
 	}
 	
-	$("#photo").attr('src', mImages[mCurrentIndex].imgpath);
+	$("#photo").attr('src', mImages[mCurrentIndex].imgPath);
 	$(".location").text("Location: "+mImages[mCurrentIndex].imgLocation);
 	$(".description").text("Description: "+mImages[mCurrentIndex].description);
-	$(".date").text("Date: "+mImages[mCurrentIndex].imgdate);
+	$(".date").text("Date: "+mImages[mCurrentIndex].date);
+//	$('#slideShow.photoHolder img').attr('src', mImages[mCurrentIndex].imgPath);
+//	$('#slideShow.details.location').text("Location: ", mImages[mCurrentIndex].imgLocation);
+//	$('#slideShow.photoHolder.description').text("Description: ", mImages[mCurrentIndex].description);
+//	$('#slideShow.photoHolder.date').text("Date: ", mImages[mCurrentIndex].date);
+
 	
 	mCurrentIndex++;
 	if(mCurrentIndex >=  mImages.length){
@@ -71,13 +76,16 @@ var mImages = [];
 var mJson;
 
 // URL for the JSON to load by default
-// Some options for you are: images.json, images.short.json; you will need to create your own extra.json later
 var mUrl;
+
  if($_GET["json"] == undefined){
-	mUrl = "images.json";
-   }else {
+	mUrl = "extra.json";
+	console.log(mUrl);
+   }
+ else {
 	mUrl = $_GET["json"];
-}	
+	console.log(mUrl);
+ }	
 
 
 mRequest.onreadystatechange = function() { 
@@ -89,9 +97,9 @@ mRequest.onreadystatechange = function() {
 			
 	for(var i=0; i < mJson.images.length;i++)
 		{
-			mImages.push(new GalleryImage(mJson.images[i].imgLocation,mJson.images[i].description,mJson.images[i].imgdate,mJson.images[i].imgpath));
+			mImages.push(new GalleryImage(mJson.images[i].imgLocation,mJson.images[i].description,mJson.images[i].date,mJson.images[i].imgPath));
 		}
-			
+		console.log(mImages);
 		} catch(err) { 
 			console.log(err.message);
 		} 
@@ -114,7 +122,7 @@ $(document).ready( function() {
 	
 	$(".moreIndicator").click(function(){
 		$("img.rot90").toggleClass("rot270",3000);
-		$(".details").slideToogle(1000);
+		$(".details").slideToggle(1000);
 	});
 		$("#nextPhoto").click(function(){
 			swapPhoto();
@@ -135,10 +143,10 @@ window.addEventListener('load', function() {
 
 }, false);
 
-function GalleryImage(imgLocation, description, imgdate, imgpath) {
+function GalleryImage(imgLocation, description, date, imgPath) {
 	
 	this.imgLocation = imgLocation;
 	this.description = description;
-	this.imgdate = imgdate;
-	this.imgpath = imgpath;	
+	this.date = date;
+	this.imgPath = imgPath;	
 }
