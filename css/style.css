@@ -21,7 +21,7 @@ body {
 .photoHolder {
 	position: relative;
 	width: 80%;
-	margin: 0 auto;
+	margin: auto;
 }
 
 .moreIndicator {
@@ -67,7 +67,7 @@ body {
 #nextPhoto {
 	height: 42px;
 	width: 42px;
-	margin-left: 500px;
+    float: right;
 }
 #nextPhoto:hover{
 	opacity: 0.5;

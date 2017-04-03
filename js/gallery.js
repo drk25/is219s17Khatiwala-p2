@@ -42,10 +42,6 @@ function swapPhoto() {
 	$(".location").text("Location: "+mImages[mCurrentIndex].imgLocation);
 	$(".description").text("Description: "+mImages[mCurrentIndex].description);
 	$(".date").text("Date: "+mImages[mCurrentIndex].date);
-//	$('#slideShow.photoHolder img').attr('src', mImages[mCurrentIndex].imgPath);
-//	$('#slideShow.details.location').text("Location: ", mImages[mCurrentIndex].imgLocation);
-//	$('#slideShow.photoHolder.description').text("Description: ", mImages[mCurrentIndex].description);
-//	$('#slideShow.photoHolder.date').text("Date: ", mImages[mCurrentIndex].date);
 
 	
 	mCurrentIndex++;
