@@ -80,11 +80,11 @@ var mUrl;
 
  if($_GET["json"] == undefined){
 	mUrl = "extra.json";
-	console.log(mUrl);
+//	console.log(mUrl);
    }
  else {
 	mUrl = $_GET["json"];
-	console.log(mUrl);
+//	console.log(mUrl);
  }	
 
 
