@@ -48,7 +48,7 @@ function swapPhoto() {
 	if(mCurrentIndex >=  mImages.length){
 		mCurrentIndex = 0;
 	}
-	console.log('swap photo');
+	//console.log('swap photo');
 	
 }
 function getQueryParams(qs) {
@@ -75,8 +75,8 @@ var mJson;
 var mUrl;
 
  if($_GET["json"] == undefined){
-//	mUrl = "extra.json";
-	mUrl = "images.json";
+	mUrl = "extra.json";
+//	mUrl = "images.json";
 //	console.log(mUrl);
    }
  else {
@@ -94,7 +94,8 @@ mRequest.onreadystatechange = function() {
 			
 	for(var i=0; i < mJson.images.length;i++)
 		{
-			mImages.push(new GalleryImage(mJson.images[i].imgLocation,mJson.images[i].description,mJson.images[i].date,mJson.images[i].imgPath));
+            var myline = mJson.images[i];
+			mImages.push(new GalleryImage(myline.imgLocation,myline.description,myline.date,myline.imgPath));
 		}
 		console.log(mImages);
 		} catch(err) { 
